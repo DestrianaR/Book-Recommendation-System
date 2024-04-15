@@ -144,7 +144,21 @@ Jika melihat hasil rekomendasi buku yang telah diberikan terlihat bahwa kelima j
 
 ### Evaluation: Collaborative Filtering
 Untuk mengukur akurasi dari model sistem rekomendasi ini adalah dengan menggunakan RMSE
+Formula metrik Root Mean Squared Error (RMSE) adalah sebagai berikut :
 
+$$RMSE = \sqrt{\sum{(Y_t - Y_p)^2} \over n}$$
+
+Ket :
+
+$Y_t$ = Y true (Aktual)
+
+$Y_p$ = Y predict (Prediksi)
+
+n = jumlah data
+
+Cara kerja metrik ini adalah dengan menyelisihkan nilai aktual dengan nilai prediksi lalu dikuadratkan kemudian ditotalkan dengan seluruh data dan selanjutnya dibagi dengan jumlah data, terakhir diakarkan. 
+
+![RMSE](https://github.com/DestrianaR/Book-Recommendation-System/blob/33c97a5c966f3490880a92ab9f45bb48d51bc99d/image.png?raw=true)
 
 ## Conclusion
 Pada projek ini telah dibangun sistem rekomendasi dengan 2 pendekatan yakni **Content Based Filtering** dan **Collaborative Filtering**. Dimana kedua pendekatan ini telah berhasil memberikan rekomendasi buku yang harapannya model ini dapat ditingkatkan menjadi lebih baik dikemudian hari.

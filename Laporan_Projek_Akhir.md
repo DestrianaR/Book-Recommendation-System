@@ -158,10 +158,15 @@ n = jumlah data
 
 Cara kerja metrik ini adalah dengan menyelisihkan nilai aktual dengan nilai prediksi lalu dikuadratkan kemudian ditotalkan dengan seluruh data dan selanjutnya dibagi dengan jumlah data, terakhir diakarkan. 
 
-![RMSE](https://github.com/DestrianaR/Book-Recommendation-System/blob/33c97a5c966f3490880a92ab9f45bb48d51bc99d/image.png?raw=true)
+![RMSE](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/image.png?raw=true)
+
+Gambar. 1 Plot RMSE Model Sistem Rekomendasi Collaborative Filtering.
+
+Dari Gambar 1. Terlihat bahwa model sudah cukup baik. Hal ini terlihat dari adanya penurunan nilai RMSE seiring dengan bertambahnya epoch. Selisih antara nilai RMSE data train dan data test juga tidak terlalu besar yakni sekitar 6%.
 
 ## Conclusion
-Pada projek ini telah dibangun sistem rekomendasi dengan 2 pendekatan yakni **Content Based Filtering** dan **Collaborative Filtering**. Dimana kedua pendekatan ini telah berhasil memberikan rekomendasi buku yang harapannya model ini dapat ditingkatkan menjadi lebih baik dikemudian hari.
+Pada projek ini telah dibangun sistem rekomendasi dengan 2 pendekatan yakni **Content Based Filtering** dan **Collaborative Filtering**. Dimana kedua pendekatan ini telah berhasil memberikan rekomendasi buku yang relevan.
+
 
 ## Reference
 

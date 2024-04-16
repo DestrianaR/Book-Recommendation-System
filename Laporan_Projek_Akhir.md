@@ -46,19 +46,19 @@ link : [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/bo
 
 
 ### 2. Exploratory Data Analysis (EDA)
-![Plot Top 10 Publisher](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Plot_Top_Publisher.png?raw=true)
+![Plot Top 10 Publisher](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Top_10_Publisher.png?raw=true)
 
 Gambar 1. Plot Top 10 Publisher
 
 Pada Gambar 1. terlihat visualisasi 10 penerbit dengan buku terbanyak. Penerbit *Harlequin* menerbitkan buku paling banyak dengan hampir dua kali lipat dari penerbit lain yakni sebesar 7500 buku diikuti oleh penerbit *Silhoutte*, *Pocket* dsb.
 
-![Plot Top 10 Author](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Plot_Top_Author.png?raw=true)
+![Plot Top 10 Author](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Top_10_Author.png?raw=true)
 
 Gambar 2. Plot Top 10 Author
 
 Pada Gambar 2. terlihat visualisasi 10 penulis dengan buku terbanyak. Penulis  *Agatha Christie* menciptakan buku paling banyak yakni sebesar 650 buku, diikuti oleh *William Shakespeare*, *Stephen King* dsb.
 
-![Plot Total Book in each Rating](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Total_Book_in_each_Rating.png?raw=true)
+![Plot Total Book in each Rating](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Book_Rating.png?raw=true)
 
 Gambar 3. Plot Total Book in each Rating
 

@@ -44,94 +44,146 @@ link : [Book Recommendation Dataset](https://www.kaggle.com/datasets/arashnic/bo
    * `ISBN` : kode pengidentifikasian buku yang bersifat unik (identitas buku)
    * `Book-Rating` : Rating yang diberikan konsumen (rentang 0 - 10)
 
+
 ### 2. Exploratory Data Analysis (EDA)
-- Pada kolom `Publisher`, penerbit dengan terbitan terbanyak diterbitkan oleh `Harlequin` dengan total buku yang diterbitkan hampir 8000 buku dimana jumlah ini hampir dua kali lipat dari jumlah buku yang diterbitkan oleh `Publisher` lain.
+![Plot Top 10 Publisher](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Plot_Top_Publisher.png?raw=true)
 
-- Pada kolom `Book-Author`, penulis dengan buku ciptaan terbanyak ditulis oleh `Agatha Christie` dengan total buku ciptaannya sebanyak 650 yang kemudian diikuti oleh `William Shakespeare`, `Stephen King`, `Ann M. Martin` dan `Carolyn Keene`. 
+Gambar 1. Plot Top 10 Publisher
 
-- Pada perhitungan total buku per `Book-Rating` terlihat bahwa mayoritas buku terdapat pada rating 0 atau mayoritas buku belum memiliki rating
+Pada Gambar 1. terlihat visualisasi 10 penerbit dengan buku terbanyak. Penerbit *Harlequin* menerbitkan buku paling banyak dengan hampir dua kali lipat dari penerbit lain yakni sebesar 7500 buku diikuti oleh penerbit *Silhoutte*, *Pocket* dsb.
+
+![Plot Top 10 Author](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Plot_Top_Author.png?raw=true)
+
+Gambar 2. Plot Top 10 Author
+
+Pada Gambar 2. terlihat visualisasi 10 penulis dengan buku terbanyak. Penulis  *Agatha Christie* menciptakan buku paling banyak yakni sebesar 650 buku, diikuti oleh *William Shakespeare*, *Stephen King* dsb.
+
+![Plot Total Book in each Rating](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/Total_Book_in_each_Rating.png?raw=true)
+
+Gambar 3. Plot Total Book in each Rating
+
+Pada Gambar 3. terlihat jumlah buku pada tiap rating dengan rentang nilai 0-10. Rating dengan buku terbanyak adalah rating 0 dimana jumlah buku yang memiliki rating ini berjumlah 7 kali lipat dari rating dengan buku terbanyak kedua yakni rating 8. Ini menandakan bahwa mayoritas buku pada dataset belum memiliki rating.
 
 ## Data Preparation
 
-### 1. Menggabungkan Dataset
-Pada projek ini digunakan 2 dataset yakni *Book* dan *Rating*. Untuk memudahkan pengambilan data berdasarkan gabungan informasi buku dan ratingnya, akan dilakukan pembuatas dataframe baru yang merupakan gabungan kedua dataset tersebut.
+Pada projek ini digunakan 2 dataset yakni *Book* dan *Rating*. Untuk memudahkan pengambilan data berdasarkan gabungan informasi buku dan ratingnya, akan dilakukan beberapa tahap berikut:
 
-### 2. Menghapus Missing Value
-Dilakukan pengecekan missing value dan diketahui bahwa terdapat 3 missing value yang selanjutnya baris-baris tersebut akan dihapuskan.
+1. Pembuatan dataframe baru 
 
-### 3. Menghapus Rating = 0
-Dari hasil EDA diketahui bahwa mayoritas buku belum memiliki rating sehingga akan dilakukan penghapusan baris buku yang belum memiliki rating agar sistem rekomendasi yang dibangun hanya merekomendasikan buku-buku yang telah diberikan rating.
+   Pembuatan dataframe baru dihasilkan dari 2 dataset *Book* dan *Rating* dengan fungsi `.merge()` pada kolom `ISBN`.
+
+2. Menghapus *Missing Value*
+
+   *Missing Value* adalah  adalah keadaan di mana tidak ada nilai yang tersedia atau tidak diisi untuk suatu variabel dalam dataset.
+   Tujuan: Nilai *Missing Value* tidak dapat diproses sehingga dilakukan penghapusan baris yang terdapat missing value tersebut.
+
+3. Menghapus Rating = 0
+
+   Dari hasil EDA diketahui bahwa mayoritas buku belum memiliki rating sehingga akan dilakukan penghapusan baris buku yang belum memiliki rating.
+   Tujuan: Agar rekomendasi yang diberikan telah memiliki rating yang cukup baik.
 
 ## Content Based Filtering
 
 ### 1. Data Preparation: Content Based Filtering
 Pada pembuatan model sistem rekomendasi berbasis konten akan dibuat berdasarkan kesamaan kata yang dimasukan dengan judul buku yang ada sehingga kolom yang digunakan hanya kolom `Book-Title`. Namun karena jumlah dataset yang cukup banyak sehingga data buku yang akan digunakan pada sistem rekomendasi ini dibatasi hanya pada buku yang memiliki rata-rata rating = 10.0. Dari total 135565 data, setelah dipilih berdasarkan nilai ratingnya didapatkan 18257 data yang akan digunakan pada sistem rekomendasi ini.
 
-### 2. Model Develepment Content Based Filtering
+1. Membuat dataframe untuk menghitung rata-rata rating tiap buku
+
+   Pada tahap ini dibuat dataframe untuk menghitung rata-rata tiap buku dengan fungsi `.groupby()` kolom `Book-Title` lalu menghitung rata-rata kolom `Book-Rating` dengan fungsi `.mean()`.
+
+2. Memilih buku dengan nilai rata-rata rating = 10
+
+   Dilakukan pemilihan buku dengan nilai rata-rata rating = 10.
+   Tujuan = Untuk mengurangi jumlah data buku yang terlalu besar pada pembuatan model dan memberikan rekomendasi buku dengan rating tinggi
+
+3. Pemiliihan kolom yang akan digunakan pada pembuatan model
+
+   karena model sistem rekomendasi berbasis konten akan dibuat berdasarkan kesamaan kata yang dimasukan dengan judul buku yang ada sehingga kolom yang digunakan hanya kolom `Book-Title`
+
+### 2. Modelling: Content Based Filtering
 Sistem rekomendasi berbasis konten merupakan model yang bekerja dengan melihat kemiripan dari suatu konten/produk/barang. Model ini akan menghitung kemiripan antar kata yang dimasukan user dengan judul buku yang kemudian model ini akan memberikan rekomendasi buku dengan kemiripan tertinggi. Model dengan pendekatan berbasis konten ini merupakan salah satu metode yang bisa digunakan jika pada dataset hanya terdapat atribut dari konten dan tidak terdapat riwayat transaksi oleh user.
 
 #### 1. TF-IDF
 TF-IDF telah banyak digunakan dalam bidang pengambilan informasi dan penambangan teks untuk mengevaluasi hubungan setiap kata dalam kumpulan dokumen. Secara khusus, metode ini digunakan untuk mengekstraksi kata-kata inti (kata kunci) dari dokumen, menghitung derajat yang sama antar dokumen, menentukan peringkat pencarian, dan sebagainya. TF (Term Frequency) dalam TF-IDF merujuk pada kemunculan kata-kata tertentu dalam dokumen. Kata-kata dengan nilai TF yang tinggi menandakan kepentingan yang lebih besar dalam dokumen tersebut. Di sisi lain, DF (Document Frequency) mengindikasikan seberapa sering kata tertentu muncul dalam seluruh kumpulan dokumen. Ini menghitung kemunculan kata tersebut di banyak dokumen, bukan hanya di satu dokumen saja. Kata-kata dengan nilai DF yang tinggi umumnya tidak menjadi fokus karena kecenderungannya adalah muncul di hampir semua dokumen. Sedangkan IDF (Inverse Document Frequency) yang merupakan kebalikan dari DF digunakan untuk menilai pentingnya kata-kata dalam seluruh dokumen. Nilai IDF yang tinggi menandakan bahwa kata-kata tersebut jarang ditemukan di seluruh kumpulan dokumen, sehingga memiliki kepentingan yang lebih besar. Dengan demikian, TF-IDF membantu mengukur relatifnya pentingnya sebuah kata dalam konteks seluruh kumpulan dokumen.
 
 #### 2. Cosine Similarity
-Kemiripan dua vektor diukur dengan menggunakan teknik Cosine Similarity. Teknik ini bekerjanya dengan mengukur kosinus sudut antara dua dokumen yang dinyatakan dalam vektor. Sudut antar vektor, menentukan apakah vektor-vektor tersebut menunjuk ke arah yang sama atau berbeda. Jika vektor-vektor menunjuk ke arah yang sama, berarti dokumen-dokumen tersebut serupa, semakin dekat letaknya pada sumbu, semakin mirip pula dokumen-dokumen tersebut. Begitu pula sebaliknya, semakin jauh keduanya dinyatakan pada sumbu, semakin kecil kemiripannya. Setiap dokumen yang digunakan untuk perbandingan, disajikan dalam ruang sebagai plot, dan kesamaan kosinus menangkap orientasi plot tersebut. Pada tahap ini digunakan fungsi `cosine_similarity()` untuk menghitung kemiripan dari matriks hasil TF-IDF.
+Kemiripan dua vektor diukur dengan menggunakan teknik *Cosine Similarity*. Teknik ini bekerjanya dengan mengukur kosinus sudut antara dua dokumen yang dinyatakan dalam vektor. Sudut antar vektor, menentukan apakah vektor-vektor tersebut menunjuk ke arah yang sama atau berbeda. Jika vektor-vektor menunjuk ke arah yang sama, berarti dokumen-dokumen tersebut serupa, semakin dekat letaknya pada sumbu, semakin mirip pula dokumen-dokumen tersebut. Begitu pula sebaliknya, semakin jauh keduanya dinyatakan pada sumbu, semakin kecil kemiripannya. Setiap dokumen yang digunakan untuk perbandingan, disajikan dalam ruang sebagai plot, dan kesamaan kosinus menangkap orientasi plot tersebut. Pada tahap ini digunakan fungsi `cosine_similarity()` untuk menghitung kemiripan dari matriks hasil TF-IDF.
 
 #### 3. Menampilkan Rekomendasi Buku berdasarkan Kata Pada Judul Buku
-Untuk menampilkan rekomendasi buku berdasarkan kata pada judul buku, akan dibuat sebuah fungsi. Fungsi ini memiliki 1 parameter sebagai input kata dan kemudian fungsi ini akan memberikan output berupa 10 rekomendasi buku berdasarkan nilai cosine similarity antara kata input dengan judul buku.
+Untuk menampilkan rekomendasi buku berdasarkan kata pada judul buku, akan dibuat sebuah fungsi. Fungsi ini memiliki 1 parameter sebagai input kata dan kemudian fungsi ini akan memberikan output berupa 10 rekomendasi buku berdasarkan nilai *Cosine Similarity* antara kata input dengan judul buku.
 
 **Berikut hasil rekomendasi dari buku dengan kata `Harry Potter`** :
-- `Harry Potter and the Prisoner of Azkaban Color and Activity Book (Harry Potter)`
-- `Harry Potter, tome 3 : Harry Potter et le Prisonnier d'Azkaban`
-- `The Potter`
-- `Harry Potter and the Goblet of Fire (Harry Potter)`
-- `The Magical Worlds of Harry Potter`
+Tabel 1. Hasil rekomendasi buku *Content Based Filtering* dengan kata `Harry Potter`
+| No. | Book Title |
+|--|---|
+| 1. | Harry Potter and the Prisoner of Azkaban Color and Activity Book (Harry Potter) | 
+| 2. | Harry Potter, tome 3 : Harry Potter et le Prisonnier d'Azkaban |
+| 3. | The Potter | 
+| 4. | Harry Potter and the Goblet of Fire (Harry Potter) |
+| 5. | The Magical Worlds of Harry Potter |
 
 Dari hasil rekomendasi yang diberikan terlihat bahwa model rekomendasi sistem yang dibangun berhasil memberikan rekomendasi judul buku yang relevan dengan input kata yang dimasukan.
 
 ## Collaborative Filtering
 
 ### 1. Data Preparation: Collaborative Filtering
-Pada pembuatan model sistem rekomendasi berbasis kolaboratif akan dibuat berdasarkan kesamaan dari seorang pengguna dengan suatu kelompok. Hal ini didasarkan pada kesamaan rating yang pernah diberikan terhadap buku yang sama. Data yang digunakan untuk membangun rekomendasi sistem ini adalah `User-ID`, `Book-Title`, dan `Book-Rating`. Agar rekomendasi yang diberikan cukup baik dan dataset yang digunakan cukup banyak sehingga akan dilakukan pemilihan buku yang memiliki jumlah minimal rating sebanyak 50. Dari total 383839 data, setelah dipilih berdasarkan jumlah ratingnya didapatkan 65081 data yang akan digunakan pada sistem rekomendasi ini.
+Pada pembuatan model sistem rekomendasi berbasis kolaboratif akan dibuat berdasarkan kesamaan dari seorang pengguna dengan suatu kelompok. Hal ini didasarkan pada kesamaan rating yang pernah diberikan terhadap buku yang sama. Agar rekomendasi yang diberikan cukup baik dan dataset yang digunakan cukup banyak sehingga akan dilakukan pemilihan buku yang memiliki jumlah minimal rating sebanyak 50. Dari total 383839 data, setelah dipilih berdasarkan jumlah ratingnya didapatkan 65081 data yang akan digunakan pada sistem rekomendasi ini.
 
-Kemudian dilakukan proses encoding pada data `User-ID` dan `ISBN` menjadi bertipe data integer. Lalu dilakukan pembagian data train dan data validation untuk proses training model dengan data train adalah kolom `User-ID` dan `ISBN` hasil encoding dan data validation adalah kolom `Book-Rating`.
+1. Pemilihan buku berdasarkan jumlah rating
 
-### 2. Model Develepment Collaborative Filtering
+   Dilakukan perhitungan jumlah rating dari masing-masing buku, lalu dipilih buku dengan jumlah rating > 50.
+   Tujuan: Untuk mengurangi jumlah data buku yang digunakan.
+
+2. *Encoding* `User-ID` dan `ISBN`
+   
+   Proses *Encoding* merupakan perubahan data object menjadi numerik.
+   Tujuan: Algoritma untuk membuat model hanya bisa menerima data dalam bentuk numerik.
+
+3. Membagi dataset
+
+   Dilakukan pembagian dataset train dan validation dimana kolom `users` dan `book` yang merupakan hasil encoding akan menjadi variabel fitur dan kolom `Book-Rating` akan menjadi variabel target.
+
+### 2. Modelling: Collaborative Filtering
 
 #### 1. Proses Training Model
-Pada tahap ini dilakukan implementasi model neural network untuk sistem rekomendasi menggunakan TensorFlow. Model ini menggunakan embeddings untuk merepresentasikan pengguna (users) dan item (books) dalam ruang laten yang lebih rendah. Dalam inisialisasi model, Embedding layers digunakan untuk menyandikan pengguna dan item ke dalam vektor numerik, dengan pembatasan L2 regularization. Kemudian, dalam fungsi call, vektor pengguna dan item dipanggil berdasarkan input, dan kemudian dihitung dot product-nya. Setelah itu, bias dari pengguna dan item ditambahkan ke hasil dot product tersebut. Akhirnya, hasil akhir diteruskan melalui fungsi aktivasi sigmoid untuk memperoleh nilai probabilitas. Model ini kemudian dikompilasi dengan binary cross-entropy loss function, optimizer Adam dengan learning rate 0.001, dan metric Root Mean Squared Error (RMSE). Selama proses pelatihan, dua callback digunakan: ReduceLROnPlateau untuk mengurangi learning rate jika 'val_loss' tidak membaik dalam beberapa epochs, dan EarlyStopping untuk menghentikan pelatihan jika tidak ada perbaikan dalam 'val_loss' dalam beberapa epochs berturut-turut. Proses pelatihan kemudian dilakukan dengan data pelatihan dan validasi, menggunakan batch size 8 dan berhenti setelah maksimum 30 epochs atau jika early stopping terpenuhi.
+Pada tahap ini dilakukan implementasi model neural network untuk sistem rekomendasi menggunakan TensorFlow. Model ini menggunakan embeddings untuk merepresentasikan pengguna (users) dan item (books) dalam ruang laten yang lebih rendah. Dalam inisialisasi model, Embedding layers digunakan untuk menyandikan pengguna dan item ke dalam vektor numerik, dengan pembatasan L2 regularization. Kemudian, dalam fungsi call, vektor pengguna dan item dipanggil berdasarkan input, dan kemudian dihitung dot product-nya. Setelah itu, bias dari pengguna dan item ditambahkan ke hasil dot product tersebut. Akhirnya, hasil akhir diteruskan melalui fungsi aktivasi sigmoid untuk memperoleh nilai probabilitas. Model ini kemudian dikompilasi dengan binary cross-entropy loss function, optimizer Adam dengan learning rate 0.001, dan metric *Root Mean Squared Error* (RMSE). Selama proses pelatihan, dua callback digunakan: *ReduceLROnPlateau* untuk mengurangi learning rate jika `val_loss` tidak membaik dalam beberapa epochs, dan *EarlyStopping* untuk menghentikan pelatihan jika tidak ada perbaikan dalam `val_loss` dalam beberapa epochs berturut-turut. Proses pelatihan kemudian dilakukan dengan data pelatihan dan validasi, menggunakan batch size 8 dan berhenti setelah maksimum 30 epochs atau jika early stopping terpenuhi.
 
 #### 2. Mendapatkan Rekomendasi Buku
-Berikut ini adalah langkah-langkah untuk mendapatkan rekomendasi buku. Pertama, sebuah ID pengguna dipilih secara acak dari dataset collaborative_filtering_df. Kemudian, buku-buku yang telah dibeli oleh pengguna tersebut diidentifikasi. Selanjutnya, buku-buku yang belum dibeli oleh pengguna dicari berdasarkan daftar buku yang tersedia dalam dataset. Daftar buku yang belum dibeli tersebut diubah menjadi representasi terenkripsi yang sesuai dengan format yang dimengerti oleh model. Selanjutnya, representasi terenkripsi dari pengguna tersebut diambil, dan digabungkan dengan representasi terenkripsi dari buku-buku yang belum dibeli. Model digunakan untuk memprediksi rating untuk buku-buku tersebut. Sepuluh buku dengan rating tertinggi kemudian dipilih sebagai rekomendasi. ISBN dari buku-buku rekomendasi tersebut kemudian diubah kembali menjadi judul-judul buku yang sesuai, dan ditampilkan bersama dengan lima buku teratas yang telah dibeli oleh pengguna untuk membandingkan rekomendasi dengan preferensi sebelumnya.
-
-
+Berikut ini adalah langkah-langkah untuk mendapatkan rekomendasi buku. Pertama, sebuah ID pengguna dipilih secara acak dari dataset `collaborative_filtering_df`. Kemudian, buku-buku yang telah dibeli oleh pengguna tersebut diidentifikasi. Selanjutnya, buku-buku yang belum dibeli oleh pengguna dicari berdasarkan daftar buku yang tersedia dalam dataset. Daftar buku yang belum dibeli tersebut diubah menjadi representasi terenkripsi yang sesuai dengan format yang dimengerti oleh model. Selanjutnya, representasi terenkripsi dari pengguna tersebut diambil, dan digabungkan dengan representasi terenkripsi dari buku-buku yang belum dibeli. Model digunakan untuk memprediksi rating untuk buku-buku tersebut. Sepuluh buku dengan rating tertinggi kemudian dipilih sebagai rekomendasi. ISBN dari buku-buku rekomendasi tersebut kemudian diubah kembali menjadi judul-judul buku yang sesuai, dan ditampilkan bersama dengan lima buku teratas yang telah dibeli oleh pengguna untuk membandingkan rekomendasi dengan preferensi sebelumnya.
 
 Berikut hasil prediksi dari user dengan `User-ID` = `638` :
 
-- **Books with High Ratings from User**
-- `The Catcher in the Rye by J.D. Salinger`
-- `The Lovely Bones: A Novel by Alice Sebold`
-- `The Da Vinci Code by Dan Brown`
-- `The Pilot's Wife : A Novel Tag: Author of the Weight of Water (Oprah's Book Club (Hardcover)) by Anita Shreve`
-- `The Beach HouseMe Talk Pretty One Day by David Sedaris`
+Tabel 2. Buku dengan rating tertinggi oleh user 638
 
-- **Top 10 Books Recommendation**
-- `Message in a BottleTo Kill a Mockingbird by Harper Lee`
-- `The Little Prince by Antoine de Saint-ExupÃ©ry`
-- `The Giver (21st Century Reference) by LOIS LOWRY`
-- `1984 by George Orwell`
-- `East of Eden (Oprah's Book Club) by John Steinbeck`
-- `Charlotte's Web (Trophy Newbery) by E. B. White`
-- `The Beach HouseThe Return of the King (The Lord of the Rings, Part 3) by J.R.R. TOLKIEN`
-- `Harry Potter and the Goblet of Fire (Book 4) by J. K. Rowling`
-- `Harry Potter and the Prisoner of Azkaban (Book 3) by J. K. Rowling`
-- `Harry Potter and the Sorcerer's Stone (Book 1) by J. K. Rowling`
+| No. | Book Title | Book Author |
+|--|---|---|
+| 1. | The Catcher in the Rye | J.D. Salinger |
+| 2. | The Lovely Bones: A Novel | Alice Sebold |
+| 3. | The Da Vinci Code | Dan Brown |
+| 4. | The Pilot's Wife : A Novel Tag: Author of the Weight of Water (Oprah's Book Club (Hardcover)) | Anita Shreve |
+| 5. | The Beach HouseMe Talk Pretty One Day | David Sedaris |
+
+Tabel 3. Rekomendasi buku sistem rekomendasi *Collaborative Filtering*
+
+| No. | Book Title | Book Author |
+|--|---|---|
+| 1. | Message in a BottleTo Kill a Mockingbird | J.D. Salinger |
+| 2. | The Little Prince | Antoine de Saint-ExupÃ©ry |
+| 3. | The Giver (21st Century Reference) | LOIS LOWRY |
+| 4. | 1984 | George Orwell |
+| 5. | East of Eden (Oprah's Book Club) | John Steinbeck |
+| 6. | Charlotte's Web (Trophy Newbery) | E. B. White |
+| 7. | The Beach HouseThe Return of the King (The Lord of the Rings, Part 3) | J.R.R. TOLKIEN |
+| 8. | Harry Potter and the Goblet of Fire (Book 4) | J. K. Rowling |
+| 9. | Harry Potter and the Prisoner of Azkaban (Book 3) | J. K. Rowling |
+| 10. | Harry Potter and the Sorcerer's Stone (Book 1) | J. K. Rowling |
 
 Dari hasil sistem rekomendasi yang dibuat, model berhasil memberikan 10 rekomendasi buku berdasarkan buku yang telah diberikan rating oleh user.
 
 ## Evaluation 
 
 ### Evaluation: Content Based Filtering
-Salah satu metode untuk mengukur akurasi dari hasil sistem rekomendasi adalah RSP. Formula metrik Recomender System Precision (RSP) ini adalah sebagai berikut :
+Salah satu metode untuk mengukur akurasi dari hasil sistem rekomendasi adalah RSP. Formula metrik *Recomender System Precision* (RSP) ini adalah sebagai berikut :
 
 $$RSP = R_R/R_A$$
 
@@ -142,9 +194,11 @@ $R_R$ = Jumlah rekomendasi yang relevan
 $R_A$ = Jumlah keseluruhan rekomendasi yang prediksi model
 
 Metode ini bekerja dengan membandingkan jumlah keseluruhan rekomendasi yang diberikan model dengan jumlah rekomendasi yang relevan dengan rentang 0 sampai 1.
-Jika melihat hasil rekomendasi buku yang telah diberikan terlihat bahwa kelima judul buku yang direkomendasikan mengandung kata "Harry" atau "Potter" sehingga hasil perhitungan RSP nya adalah 5/5 = 1
+Jika melihat hasil rekomendasi buku yang telah diberikan terlihat bahwa kelima judul buku yang direkomendasikan mengandung kata "Harry" atau "Potter" sehingga hasil perhitungan RSP nya adalah 5/5 = 1. 
 
-### Evaluation: Collaborative Filtering
+Sehingga dari hasil perhitungan metrics RSP dapat disimpulkan bahwa model sistem rekomendasi berbasis konten ini **berhasil memberikan rekomendasi buku yang relevan dengan kata kunci yang dimasukan.**
+
+### Evaluation: *Collaborative Filtering*
 Untuk mengukur akurasi dari model sistem rekomendasi ini adalah dengan menggunakan RMSE
 Formula metrik Root Mean Squared Error (RMSE) adalah sebagai berikut :
 
@@ -162,9 +216,11 @@ Cara kerja metrik ini adalah dengan menyelisihkan nilai aktual dengan nilai pred
 
 ![RMSE](https://github.com/DestrianaR/Book-Recommendation-System/blob/main/image.png?raw=true)
 
-Gambar. 1 Plot RMSE Model Sistem Rekomendasi Collaborative Filtering.
+Gambar. 4 Plot RMSE Model Sistem Rekomendasi *Collaborative Filtering*.
 
-Dari Gambar 1. Terlihat bahwa model sudah cukup baik. Hal ini terlihat dari adanya penurunan nilai RMSE seiring dengan bertambahnya epoch. Selisih antara nilai RMSE data train dan data test juga tidak terlalu besar yakni sekitar 6%.
+Dari Gambar 4. Terlihat bahwa model sudah cukup baik. Hal ini terlihat dari adanya penurunan nilai RMSE seiring dengan bertambahnya epoch. Selisih antara nilai RMSE data train dan data test juga tidak terlalu besar yakni sekitar 6%.
+
+Sehingga dari hasil perhitungan metrics RMSE dapat disimpulkan bahwa model sistem rekomendasi kolaboratif ini **berhasil memberikan rekomendasi buku dengan tingkat kesalahan yang cukup kecil.**
 
 ## Conclusion
 Pada projek ini telah dibangun sistem rekomendasi dengan 2 pendekatan yakni **Content Based Filtering** dan **Collaborative Filtering**. Dimana kedua pendekatan ini telah berhasil memberikan rekomendasi buku yang relevan.

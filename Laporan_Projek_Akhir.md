@@ -1,17 +1,19 @@
 # Laporab Proyek Machine Learning - Destriana Ramadani
 
 ## Project Overview 
-Seiring dengan kemajuan teknologi terkini dengan maraknya layanan online telah menawarkan kemampuan dan kemudahan untuk mengakses sejumlah besar informasi online dengan lebih cepat. Pengguna dapat memberikan ulasan, komentar, dan penilain untuk berbagai jenis layanan dan produk yang tersedia secara online. Namun, kemajuan terkini dalam proses komputasi telah mengakibatkan kelebihan data secara online. Kelebihan data ini membuat lebih sulit dalam menemukan konten yang relevan dan bermanfaat melalui internet.
+Seiring dengan kemajuan teknologi terkini dengan maraknya layanan online telah menawarkan kemampuan dan kemudahan untuk mengakses sejumlah besar informasi online dengan lebih cepat. Pengguna dapat memberikan ulasan, komentar, dan penilain untuk berbagai jenis layanan dan produk yang tersedia secara online. Namun, kemajuan terkini dalam proses komputasi telah mengakibatkan kelebihan data secara online. Kelebihan data ini membuat lebih sulit dalam menemukan konten yang relevan dan bermanfaat melalui internet. Oleh karena itu, pengembangan sistem rekomendasi menjadi sangat penting dan bermanfaat untuk memberikan rekomendasi produk sesuai dengan preferensi pengguna.
 
-Baru-baru ini, pengembangan beberapa metode yang membutuhkan daya komputasi lebih rendah telah membuat pengguna lebih mudah dan cepat menemukan konten yang relevan. Oleh karena itu, pengembangan sistem rekomendasi baru-baru ini telah menarik perhatian yang besar. Secara umum, sistem rekomendasi berperan sebagai alat bantu informasi yang menyediakan konten atau informasi yang sesuai dan disesuaikan dengan kebutuhan pengguna. Sistem ini terutama bertujuan untuk mengurangi usaha dan waktu yang diperlukan pengguna untuk mencari informasi yang relevan di internet.
+Dengan jumlah buku yang tersedia di pasaran yang terus bertambah, mencari buku yang sesuai dengan minat dan kebutuhan bisa menjadi tugas yang menantang. Sistem rekomendasi produk buku penting karena membantu pengguna menemukan buku yang sesuai dengan minat dan preferensi mereka dengan lebih mudah. 
 
 ## Business Understanding
 Sistem rekomendasi merupakan metode filtering yang memahami preferensi suatu kelompok dan kemudian merekomendasikan barang atau produk yang paling relevan kepada pengguna. Dalam konteks bisnis, hal ini juga dapat didefinisikan sebagai kemungkinan seorang pengguna membeli suatu produk tertentu yang menggambarkan preferensi pengguna terhadap produk yang berbeda. Konsep ini digambarkan sebagai fungsi pengguna dan produk, yang menghasilkan skor yang mengukur minat pengguna terhadap produk.
 
-Selama bertahun-tahun, sistem rekomendasi telah digunakan untuk memecahkan masalah menghubungkan pengguna saat ini ke produk yang paling relevan pada jutaan item dalam inventaris. Misalnya, rekomendasi buku, produk, dan berbagai item dari Amazon, film dari Netflix, aplikasi surat kabar yang dipersonalisasi, atau musik di Spotify adalah beberapa contoh sukses sistem rekomendasi yang digunakan dalam aplikasi e-commerce saat ini.
+Sistem rekomendasi tidak hanya memberikan rekomendasi berdasarkan preferensi yang sudah ada, tetapi juga dapat memperluas cakupan minat pengguna dengan menyarankan buku-buku yang mungkin belum pernah mereka pertimbangkan sebelumnya. Dengan minat dan preferensi tiap orang yang unik, sistem rekomendasi dapat memberikan rekomendasi yang dipersonalisasi berdasarkan riwayat pembelian, penilaian buku sebelumnya, atau preferensi yang dinyatakan oleh pengguna.
 
 ### 1. Problem Statemant
-Berdasarkan penjelasan sebelumnya masalah yang umumnya terjadi pada perusahaan e-commerce dalam menjual produknya adalah bagaimana memberikan rekomendasi produk atau barang yang sesuai dengan preferensi pelanggan dengan efektif dan cepat.
+Berdasarkan penjelasan sebelumnya masalah yang umumnya terjadi pada perusahaan e-commerce dalam menjual produknya adalah :
+
+**Bagaimana memberikan rekomendasi produk atau barang yang sesuai dengan preferensi pelanggan dengan efektif dan cepat?**
 
 ### 2. Goals
 Dengan banyaknya data yang tersedia, maka pada projek ini akan dilakukan pembuatan sistem rekomendasi untuk memberikan rekomendasi yang memudahkan pelanggan dalam melakukan pencarian barang atau produk yang relevan secara efektif.

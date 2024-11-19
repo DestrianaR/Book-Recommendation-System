@@ -1,4 +1,4 @@
-# Laporab Proyek Machine Learning - Destriana Ramadani
+# Laporan Proyek Machine Learning - Destriana Ramadani
 
 ## Project Overview 
 Seiring dengan kemajuan teknologi terkini dengan maraknya layanan online telah menawarkan kemampuan dan kemudahan untuk mengakses sejumlah besar informasi online dengan lebih cepat. Pengguna dapat memberikan ulasan, komentar, dan penilain untuk berbagai jenis layanan dan produk yang tersedia secara online. Namun, kemajuan terkini dalam proses komputasi telah mengakibatkan kelebihan data secara online. Kelebihan data ini membuat lebih sulit dalam menemukan konten yang relevan dan bermanfaat melalui internet. Oleh karena itu, pengembangan sistem rekomendasi menjadi sangat penting dan bermanfaat untuk memberikan rekomendasi produk sesuai dengan preferensi pengguna.
